@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,9 +58,9 @@ public class WebCrawlerService {
     }
 
     // This method to get the page content might be recursive
-    public List<String> getPagesFromUrl(String url) {
+    public Set<String> getPagesFromUrl(String url) {
         String html = getPageContent(url);
-        List<String> pages = new ArrayList<>();
+        Set<String> pages = new HashSet<>();
         if (html != null && html.length()>0) {
             // assume pages are all hrefs
             Pattern linkPattern = Pattern.compile("(<a[^>]+>.+?<\\/a>)");//,  Pattern.CASE_INSENSITIVE|Pattern.DOTALL);

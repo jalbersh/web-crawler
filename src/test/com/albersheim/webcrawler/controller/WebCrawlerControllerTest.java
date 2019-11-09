@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
@@ -78,7 +79,7 @@ public class WebCrawlerControllerTest {
 
     @Test
     public void testControllerGetSiteMap_returnsPages_Succeeds() throws Exception {
-        List<String> pages = con.getSiteMap("https://wiprodigital.com");
+        Set<String> pages = con.getSiteMap("https://wiprodigital.com");
         assertNotNull(pages);
         assertNotEquals(0,pages.size());
         assertTrue(pages.contains("https://wiprodigital.com/designit-approach/"));

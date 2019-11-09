@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin()
@@ -22,10 +23,10 @@ public class WebCrawlerController {
 	}
 
 	@RequestMapping(value = "/getSiteMap", method = RequestMethod.GET)
-	public List<String> getSiteMap(@RequestParam String url) {
+	public Set<String> getSiteMap(@RequestParam String url) {
 		System.out.println("in getSiteMap with url="+url);
 		String html = webCrawlerService.getPageContent(url);
-		List<String> pages = webCrawlerService.getPagesFromUrl(url);
+		Set<String> pages = webCrawlerService.getPagesFromUrl(url);
 		return pages;
 		//		return null; // initial red test
 	}

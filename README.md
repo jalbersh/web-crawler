@@ -6,7 +6,7 @@ There is an executable jar called webCrawler.jar.
 
 To execute, enter the command:
 
-$> java -jar webCrawler.jar
+$> java -jar ./build/libs/web-crawler.jar
 
 Incorporated into the web-crawler is Swagger. To see the available endpoints, enter the
 following into your web browser:

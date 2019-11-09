@@ -4,7 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -57,7 +59,7 @@ public class WebCrawlerServiceTest {
     @Test
     public void testGivenUrl_GetListOfPagesFromInitial_returnsList() {
         String url = "https://wiprodigital.com";
-        List<String> pages = webCrawlerService.getPagesFromUrl(url);
+        Set<String> pages = webCrawlerService.getPagesFromUrl(url);
         assertNotNull(pages);
         assertNotEquals(0,pages.size());
         assertTrue(pages.contains("https://wiprodigital.com/designit-approach/"));
@@ -69,6 +71,14 @@ public class WebCrawlerServiceTest {
         String expected = "https://wiprodigital.com/designit-approach/";
         String actual = webCrawlerService.getPageFromHrefContent(hrefContent);
         assertEquals(expected,actual);
+    }
+
+    @Test
+    public void testPageListShouldHaveNoRepeats() {
+        String url = "https://wiprodigital.com";
+        Set<String> pages = webCrawlerService.getPagesFromUrl(url);
+        int occurrences = Collections.frequency(pages, "https://wiprodigital.com/who-we-are");
+        assertEquals(1,occurrences);// red test failed
     }
 
 }
