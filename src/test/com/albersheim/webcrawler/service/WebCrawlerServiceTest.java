@@ -56,11 +56,20 @@ public class WebCrawlerServiceTest {
     // 5th test - get list of pages from given page, given initial page content
     @Test
     public void testGivenUrl_GetListOfPagesFromInitial_returnsList() {
-        String url = "http://www.google.com";
+        String url = "https://wiprodigital.com";
         String html = webCrawlerService.getPageContent(url);
         List<String> pages = webCrawlerService.getPagesInPage(html,url);
         assertNotNull(pages);
         assertNotEquals(0,pages.size());
+        assertTrue(pages.contains("https://wiprodigital.com/designit-approach/"));
+    }
+
+    @Test
+    public void testGetPageFromHrefContent_returns_pageContent() {
+        String hrefContent = "<a class=\"circles-di-link\" target=\"_blank\" href=\"https://wiprodigital.com/designit-approach/\">Designit</a>";
+        String expected = "https://wiprodigital.com/designit-approach/";
+        String actual = webCrawlerService.getPageFromHrefContent(hrefContent);
+        assertEquals(expected,actual);
     }
 
 }

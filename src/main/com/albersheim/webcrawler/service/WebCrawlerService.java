@@ -1,6 +1,5 @@
 package com.albersheim.webcrawler.service;
 
-import com.albersheim.webcrawler.utils.StringBufferOutputStream;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedInputStream;
@@ -9,6 +8,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class WebCrawlerService {
@@ -46,21 +47,25 @@ public class WebCrawlerService {
 //        return false; // initial value for red test
     }
 
+    public String getPageFromHrefContent(String hrefContent) {
+        String page=null;
+        int start = hrefContent.indexOf("href=\"");
+        int end = hrefContent.indexOf("\">");
+        page = hrefContent.substring(start+"href=\"".length(),end);
+        return page;
+//        return null; // initial for red test
+    }
+
     public List<String> getPagesInPage(String html, String url) {
         List<String> pages = new ArrayList<>();
         if (html != null && html.length()>0) {
             // assume pages are all hrefs
-            String[] parts = html.split("href");
-            for (String part : parts) {
-                if (part.contains(url)) { // assume only want pages under original url base
-                    System.out.println("part=" + part);
-                    // strip off all urls between quotes
-                    int start = part.indexOf("\"");
-                    int end = part.indexOf("\"", start + 1);
-                    String page = part.substring(start, start + end);
-                    System.out.println("part=" + part);
-                    pages.add(page);
-                }
+            Pattern linkPattern = Pattern.compile("(<a[^>]+>.+?<\\/a>)");//,  Pattern.CASE_INSENSITIVE|Pattern.DOTALL);
+            Matcher pageMatcher = linkPattern.matcher(html);
+            while(pageMatcher.find()){
+                String page = getPageFromHrefContent(pageMatcher.group());
+                System.out.println("adding page: "+page);
+                pages.add(page);
             }
         }
         return pages;
