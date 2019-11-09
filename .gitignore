@@ -22,7 +22,12 @@ local.properties
 gradle/
 gradlew
 gradlew.bat
-lib/
+lib/commons-pool2-2.5.0/apidocs
+lib/commons-pool2-2.5.0/commons-pool2-2.5.0-*
+lib/spring-boot
+lib/commons-pool2-2.5.0/LICENSE.txt
+lib/commons-pool2-2.5.0/NOTICE.txt
+lib/commons-pool2-2.5.0/RELEASE-NOTES.txt
 out/
 pkg/
 build/
