@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 @Service
 public class WebCrawlerService {
 
-    // This method to get the page content might be recursive
     public String getPageContent(String url) {
         if (!checkUrlIsValidFormat(url)) return null;
         StringBuffer sb = new StringBuffer();
@@ -56,7 +55,9 @@ public class WebCrawlerService {
 //        return null; // initial for red test
     }
 
-    public List<String> getPagesInPage(String html, String url) {
+    // This method to get the page content might be recursive
+    public List<String> getPagesFromUrl(String url) {
+        String html = getPageContent(url);
         List<String> pages = new ArrayList<>();
         if (html != null && html.length()>0) {
             // assume pages are all hrefs

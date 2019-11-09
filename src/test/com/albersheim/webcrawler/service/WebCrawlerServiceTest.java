@@ -57,8 +57,7 @@ public class WebCrawlerServiceTest {
     @Test
     public void testGivenUrl_GetListOfPagesFromInitial_returnsList() {
         String url = "https://wiprodigital.com";
-        String html = webCrawlerService.getPageContent(url);
-        List<String> pages = webCrawlerService.getPagesInPage(html,url);
+        List<String> pages = webCrawlerService.getPagesFromUrl(url);
         assertNotNull(pages);
         assertNotEquals(0,pages.size());
         assertTrue(pages.contains("https://wiprodigital.com/designit-approach/"));

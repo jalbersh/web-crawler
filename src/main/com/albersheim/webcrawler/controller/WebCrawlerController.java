@@ -25,7 +25,7 @@ public class WebCrawlerController {
 	public List<String> getSiteMap(@RequestParam String url) {
 		System.out.println("in getSiteMap with url="+url);
 		String html = webCrawlerService.getPageContent(url);
-		List<String> pages = webCrawlerService.getPagesInPage(html,url);
+		List<String> pages = webCrawlerService.getPagesFromUrl(url);
 		return pages;
 		//		return null; // initial red test
 	}
