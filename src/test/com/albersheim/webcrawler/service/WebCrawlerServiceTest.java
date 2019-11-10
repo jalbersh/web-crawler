@@ -3,12 +3,20 @@ package com.albersheim.webcrawler.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.mockito.ArgumentMatcher;
+import org.mockito.Mockito;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.verify;
 
 public class WebCrawlerServiceTest {
     private WebCrawlerService webCrawlerService;
@@ -62,14 +70,14 @@ public class WebCrawlerServiceTest {
         Set<String> pages = webCrawlerService.getPagesFromUrl(url);
         assertNotNull(pages);
         assertNotEquals(0,pages.size());
-        assertTrue(pages.contains("https://wiprodigital.com/designit-approach/"));
+        assertFalse(pages.contains("https://wiprodigital.com/designit-approach/"));
     }
 
     @Test
     public void testGetPageFromHrefContent_returns_pageContent() {
         String hrefContent = "<a class=\"circles-di-link\" target=\"_blank\" href=\"https://wiprodigital.com/designit-approach/\">Designit</a>";
-        String expected = "https://wiprodigital.com/designit-approach/";
-        String actual = webCrawlerService.getPageFromHrefContent(hrefContent);
+        String expected = "https://wiprodigital.com/designit-approach";
+        String actual = webCrawlerService.stripOffExtraneousCharacters(hrefContent);
         assertEquals(expected,actual);
     }
 
@@ -81,4 +89,34 @@ public class WebCrawlerServiceTest {
         assertEquals(1,occurrences);// red test failed
     }
 
+    @Test
+    public void testRecursiveCallMadeOnSubPageIncreasesPageCount() {
+        String url = "https://wiprodigital.com";
+        Set<String> pages = webCrawlerService.getPagesFromUrl(url);
+        int count = pages.size();
+//        assertEquals(47,count); // 47 pages
+//        assertEquals(24,count); // 24 strips off after #
+//        assertEquals(23,count); // 21 strips off if ending in /
+//        assertEquals(14,count); // 14 pages strips off target
+//        assertEquals(13,count); // 14 pages strips off title
+//        assertEquals(11,count); // 11 pages strips off \"
+        assertEquals(17,count); // 8 pages strips off /
+        assertFalse(pages.contains("https://wiprodigital.com/who-we-are/"));
+        assertFalse(pages.contains("https://wiprodigital.com/join-our-team\" target=\"_self\" title=\"better together"));
+        assertFalse(pages.contains("https://wiprodigital.com/privacy-policy/\\\" title=\\\"Privacy policy"));
+    }
+
+    private boolean contains(Set<String> pages, String url) {
+        for (String page : pages) {
+            if (page.contains(url)) return true;
+        }
+        return false;
+    }
+
+    @Test
+    public void testPageListDoesNotHaveOtherDomains() {
+        String url = "https://www.google.com";
+        Set<String> pages = webCrawlerService.getPagesFromUrl(url);
+        assertFalse(contains(pages,"www.youtube.com"));// red test failed
+    }
 }

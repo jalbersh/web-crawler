@@ -82,6 +82,28 @@ public class WebCrawlerControllerTest {
         Set<String> pages = con.getSiteMap("https://wiprodigital.com");
         assertNotNull(pages);
         assertNotEquals(0,pages.size());
-        assertTrue(pages.contains("https://wiprodigital.com/designit-approach/"));
+        assertFalse(pages.contains("https://wiprodigital.com/designit-approach/"));
+    }
+
+    @Test
+    public void testControllerGetSiteMap_returnsPages_GetsMoreThanJustBase() throws Exception {
+        Set<String> pages = con.getSiteMap("https://wiprodigital.com");
+        assertNotNull(pages);
+        assertEquals(17,pages.size());
+        assertFalse(pages.contains("https://wiprodigital.com/designit-approach/"));
+    }
+
+    @Test
+    public void testControllerGetSiteMap_returnsPages_AnotherWebSite() throws Exception {
+        Set<String> pages = con.getSiteMap("http://www.google.com");
+        assertNotNull(pages);
+        assertEquals(14,pages.size());
+    }
+
+    @Test
+    public void testControllerGetSiteMap_returnsPages_AnotherWebSite_With_subPages() throws Exception {
+        Set<String> pages = con.getSiteMap("http://www.albersheim.com");
+        assertNotNull(pages);
+        assertEquals(9,pages.size());
     }
 }

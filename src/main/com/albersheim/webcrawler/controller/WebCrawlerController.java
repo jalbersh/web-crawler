@@ -24,8 +24,7 @@ public class WebCrawlerController {
 
 	@RequestMapping(value = "/getSiteMap", method = RequestMethod.GET)
 	public Set<String> getSiteMap(@RequestParam String url) {
-		System.out.println("in getSiteMap with url="+url);
-		String html = webCrawlerService.getPageContent(url);
+//		System.out.println("in getSiteMap with url="+url);
 		Set<String> pages = webCrawlerService.getPagesFromUrl(url);
 		return pages;
 		//		return null; // initial red test
