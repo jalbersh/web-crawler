@@ -12,7 +12,11 @@ This creates and executable jar in build/libs.
 
 To execute the web-crawler, enter the command:
 
-``` java -jar ./build/libs/web-crawler.jar```
+```java -jar ./build/libs/web-crawler.jar```
+
+or, if in the main folder, simply
+
+```java -jar web-crawler.jar```
 
 Incorporated into the web-crawler is Swagger. To see the available endpoints, enter the
 following into your web browser:
