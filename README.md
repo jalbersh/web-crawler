@@ -29,3 +29,6 @@ Please include the http or https protocol in the url string.
 
 The return object is a set of endpoint pages.
 
+Given more time, I would have completed the sub-pages code with a sufficient mock 
+test that was started in AnotherWebCrawlerTest.java with testSubPages_returnsPagesinSubPages, effecting/testing
+code in WebCrawlerService.java, in the method named getPagesFromUrl.
