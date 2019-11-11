@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -89,7 +88,7 @@ public class WebCrawlerControllerTest {
     public void testControllerGetSiteMap_returnsPages_GetsMoreThanJustBase() throws Exception {
         Set<String> pages = con.getSiteMap("https://wiprodigital.com");
         assertNotNull(pages);
-        assertEquals(17,pages.size());
+        assertEquals(8,pages.size());
         assertFalse(pages.contains("https://wiprodigital.com/designit-approach/"));
     }
 
@@ -97,13 +96,14 @@ public class WebCrawlerControllerTest {
     public void testControllerGetSiteMap_returnsPages_AnotherWebSite() throws Exception {
         Set<String> pages = con.getSiteMap("http://www.google.com");
         assertNotNull(pages);
-        assertEquals(14,pages.size());
+        assertEquals(12,pages.size());
     }
 
     @Test
     public void testControllerGetSiteMap_returnsPages_AnotherWebSite_With_subPages() throws Exception {
         Set<String> pages = con.getSiteMap("http://www.albersheim.com");
         assertNotNull(pages);
-        assertEquals(9,pages.size());
+        assertEquals(6,pages.size());
     }
+
 }

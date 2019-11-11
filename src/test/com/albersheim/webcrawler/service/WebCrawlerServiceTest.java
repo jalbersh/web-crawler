@@ -3,20 +3,13 @@ package com.albersheim.webcrawler.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.verify;
 
 public class WebCrawlerServiceTest {
     private WebCrawlerService webCrawlerService;
@@ -77,7 +70,10 @@ public class WebCrawlerServiceTest {
     public void testGetPageFromHrefContent_returns_pageContent() {
         String hrefContent = "<a class=\"circles-di-link\" target=\"_blank\" href=\"https://wiprodigital.com/designit-approach/\">Designit</a>";
         String expected = "https://wiprodigital.com/designit-approach";
-        String actual = webCrawlerService.stripOffExtraneousCharacters(hrefContent);
+        HtmlPageExtractor htmlPageExtractor = new HtmlPageExtractor();
+        Vector<HtmlPage> link = htmlPageExtractor.grabHtmlPages(hrefContent);
+        assertEquals(1,link.size());
+        String actual = link.get(0).getPage();
         assertEquals(expected,actual);
     }
 
@@ -100,7 +96,7 @@ public class WebCrawlerServiceTest {
 //        assertEquals(14,count); // 14 pages strips off target
 //        assertEquals(13,count); // 14 pages strips off title
 //        assertEquals(11,count); // 11 pages strips off \"
-        assertEquals(17,count); // 8 pages strips off /
+        assertEquals(8,count); // 8 pages strips off /
         assertFalse(pages.contains("https://wiprodigital.com/who-we-are/"));
         assertFalse(pages.contains("https://wiprodigital.com/join-our-team\" target=\"_self\" title=\"better together"));
         assertFalse(pages.contains("https://wiprodigital.com/privacy-policy/\\\" title=\\\"Privacy policy"));
@@ -119,4 +115,5 @@ public class WebCrawlerServiceTest {
         Set<String> pages = webCrawlerService.getPagesFromUrl(url);
         assertFalse(contains(pages,"www.youtube.com"));// red test failed
     }
+
 }
