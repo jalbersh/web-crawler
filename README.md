@@ -4,7 +4,13 @@ This web-crawler is incorporated into a sping boot web app.
 
 There is an executable jar called ```web-crawler.jar```.
 
-To execute, enter the command:
+To build, enter the command:
+
+```gradle makeWebCrawler```
+
+This creates and executable jar in build/libs.
+
+To execute the web-crawler, enter the command:
 
 ``` java -jar ./build/libs/web-crawler.jar```
 
